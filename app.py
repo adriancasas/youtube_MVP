@@ -143,6 +143,7 @@ if st.button("Analizar Canal"):
                 total_videos += 1
 
             df_videos = pd.DataFrame(videos_report)
+            df_videos.insert(0, '#', range(1, len(df_videos) + 1))
             st.subheader("Videos analizados y gaps detectados")
             st.dataframe(df_videos, use_container_width=True)
 
@@ -159,9 +160,10 @@ if st.button("Analizar Canal"):
                 })
             df_prioridad = pd.DataFrame(matriz)
             df_prioridad = df_prioridad.sort_values(by=['Esfuerzo (min)','Impacto (€)'], ascending=[True, False]).reset_index(drop=True)
+            df_prioridad.insert(0, '#', range(1, len(df_prioridad) + 1))
             df_prioridad['Top'] = ''
             df_prioridad.loc[:2, 'Top'] = '🔥 TOP'
-            cols = ['Top','Gap','Veces','Esfuerzo (min)','Impacto (€)','ROI (%)','Acción']
+            cols = ['#','Top','Gap','Veces','Esfuerzo (min)','Impacto (€)','ROI (%)','Acción']
             st.subheader("Prioridad de mejoras")
             st.dataframe(df_prioridad[cols], use_container_width=True)
 
