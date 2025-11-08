@@ -5,56 +5,36 @@ import time
 import pandas as pd
 
 gap_info = {
-    "Sin playlist asignada": {
-        "peso": 20, "roi": "+20% watch time", "metrica": "watch time",
+    "Sin playlist asignada": { "peso": 20, "roi": "+20% watch time", "metrica": "watch time",
         "por_que": "YouTube recomienda automáticamente el siguiente video", "como": "Crea playlists temáticas",
-        "tiempo": "30 min", "esfuerzo": 30, "estimado_mensual": "€600/mes"
-    },
-    "Descripción corta": {
-        "peso": 15, "roi": "+10-15% impresiones", "metrica": "impresiones",
+        "tiempo": "30 min", "esfuerzo": 30, "estimado_mensual": "€600/mes" },
+    "Descripción corta": { "peso": 15, "roi": "+10-15% impresiones", "metrica": "impresiones",
         "por_que": "SEO mejorado", "como": "Expande a 200-300 caracteres",
-        "tiempo": "5 min", "esfuerzo": 5, "estimado_mensual": "€200/mes"
-    },
-    "Sin emojis en título": {
-        "peso": 10, "roi": "+5% CTR", "metrica": "click-through-rate",
+        "tiempo": "5 min", "esfuerzo": 5, "estimado_mensual": "€200/mes" },
+    "Sin emojis en título": { "peso": 10, "roi": "+5% CTR", "metrica": "click-through-rate",
         "por_que": "Captura atención en feeds móviles", "como": "Agrega emojis relevantes",
-        "tiempo": "3 min", "esfuerzo": 3, "estimado_mensual": "€100/mes"
-    },
-    "Sin CTA": {
-        "peso": 8, "roi": "+4% subs", "metrica": "suscriptores",
+        "tiempo": "3 min", "esfuerzo": 3, "estimado_mensual": "€100/mes" },
+    "Sin CTA": { "peso": 8, "roi": "+4% subs", "metrica": "suscriptores",
         "por_que": "Fomenta la acción del espectador", "como": "Agrega llamada a la acción en la descripción",
-        "tiempo": "2 min", "esfuerzo": 2, "estimado_mensual": "€80/mes"
-    },
-    "Título largo": {
-        "peso": 10, "roi": "+6% CTR", "metrica": "click-through-rate",
+        "tiempo": "2 min", "esfuerzo": 2, "estimado_mensual": "€80/mes" },
+    "Título largo": { "peso": 10, "roi": "+6% CTR", "metrica": "click-through-rate",
         "por_que": "Evita truncados y mejora comprensión", "como": "Reduce el título a <60 caracteres",
-        "tiempo": "8 min", "esfuerzo": 8, "estimado_mensual": "€120/mes"
-    },
-    "Descripción sin keywords del título": {
-        "peso": 12, "roi": "+8% impresiones", "metrica": "SEO",
+        "tiempo": "8 min", "esfuerzo": 8, "estimado_mensual": "€120/mes" },
+    "Descripción sin keywords del título": { "peso": 12, "roi": "+8% impresiones", "metrica": "SEO",
         "por_que": "Palabras clave reforzadas en buscadores", "como": "Incluye keywords del título en la descripción",
-        "tiempo": "7 min", "esfuerzo": 7, "estimado_mensual": "€160/mes"
-    },
-    "Sin pregunta de interacción": {
-        "peso": 6, "roi": "+2% engagement", "metrica": "comentarios",
+        "tiempo": "7 min", "esfuerzo": 7, "estimado_mensual": "€160/mes" },
+    "Sin pregunta de interacción": { "peso": 6, "roi": "+2% engagement", "metrica": "comentarios",
         "por_que": "Fomenta participación", "como": "Agrega una pregunta en la descripción",
-        "tiempo": "2 min", "esfuerzo": 2, "estimado_mensual": "€50/mes"
-    },
-    "Título sin números": {
-        "peso": 8, "roi": "+3% CTR", "metrica": "click-through-rate",
+        "tiempo": "2 min", "esfuerzo": 2, "estimado_mensual": "€50/mes" },
+    "Título sin números": { "peso": 8, "roi": "+3% CTR", "metrica": "click-through-rate",
         "por_que": "Los números destacan en thumbnails", "como": "Incluye cifras relevantes en el título",
-        "tiempo": "3 min", "esfuerzo": 3, "estimado_mensual": "€70/mes"
-    },
-    "Incluye FREE/GRATIS": {
-        "peso": 18, "roi": "+12% CTR", "metrica": "click-through-rate",
+        "tiempo": "3 min", "esfuerzo": 3, "estimado_mensual": "€70/mes" },
+    "Incluye FREE/GRATIS": { "peso": 18, "roi": "+12% CTR", "metrica": "click-through-rate",
         "por_que": "Palabras poderosas para atraer clics", "como": "Destaca ofertas gratuitas",
-        "tiempo": "2 min", "esfuerzo": 2, "estimado_mensual": "€140/mes"
-    },
-    "Metadescripción ausente": {
-        "peso": 25, "roi": "+25% SEO", "metrica": "posicionamiento",
+        "tiempo": "2 min", "esfuerzo": 2, "estimado_mensual": "€140/mes" },
+    "Metadescripción ausente": { "peso": 25, "roi": "+25% SEO", "metrica": "posicionamiento",
         "por_que": "Ayuda al algoritmo a indexar mejor el vídeo", "como": "Agrega una descripción completa (>200 caracteres)",
-        "tiempo": "8 min", "esfuerzo": 8, "estimado_mensual": "€180/mes"
-    }
+        "tiempo": "8 min", "esfuerzo": 8, "estimado_mensual": "€180/mes" }
 }
 
 def extract_channel_videos(channel_url, max_videos=10, extract_total=20):
@@ -149,8 +129,7 @@ if st.button("Analizar Canal"):
                 video_url = f"https://www.youtube.com/watch?v={video_id}"
                 with yt_dlp.YoutubeDL({'quiet': True, 'skip_download': True, 'no_warnings': True, 'ignoreerrors': True}) as ydl_video:
                     video_info = ydl_video.extract_info(video_url, download=False)
-                if not video_info:
-                    continue
+                if not video_info: continue
                 descripcion = video_info.get('description', '')
                 titulo_checks = analizar_titulo(titulo)
                 desc_checks = analizar_descripcion(descripcion)
@@ -158,15 +137,14 @@ if st.button("Analizar Canal"):
                 gaps = titulo_checks + desc_checks + extras_checks
                 videos_report.append({
                     'Título': titulo, 'URL': video_url, 'Gaps': ', '.join(gaps),
-                    'Vistas': video_info.get('view_count', 0), 'Duración': video_info.get('duration', 0)
+                    'Vistas': video_info.get('view_count', 0), 'Duración': video_info.get('duration', 0), 'Descripción': descripcion
                 })
                 for gap in gaps: gaps_count[gap] = gaps_count.get(gap, 0) + 1
                 total_videos += 1
 
             df_videos = pd.DataFrame(videos_report)
-            styled_videos = df_videos.style.format({'Vistas': '{:,}', 'Duración': '{:,}'})
             st.subheader("Videos analizados y gaps detectados")
-            st.dataframe(styled_videos, use_container_width=True)
+            st.dataframe(df_videos, use_container_width=True)
 
             matriz = []
             for gap, count in gaps_count.items():
@@ -181,16 +159,71 @@ if st.button("Analizar Canal"):
                 })
             df_prioridad = pd.DataFrame(matriz)
             df_prioridad = df_prioridad.sort_values(by=['Esfuerzo (min)','Impacto (€)'], ascending=[True, False]).reset_index(drop=True)
-            styled_prioridad = df_prioridad.style.format({'Impacto (€)': '{:,}'}) \
-                .highlight_max(subset=['Impacto (€)'], color='#85C1E9')
+            df_prioridad['Top'] = ''
+            df_prioridad.loc[:2, 'Top'] = '🔥 TOP'
+            cols = ['Top','Gap','Veces','Esfuerzo (min)','Impacto (€)','ROI (%)','Acción']
             st.subheader("Prioridad de mejoras")
-            st.dataframe(styled_prioridad, use_container_width=True)
+            st.dataframe(df_prioridad[cols], use_container_width=True)
 
-            # Barra de Health Score
+            st.subheader("Resumen de ocurrencias de gaps en el canal")
+            summary_lines = []
+            for gap, count in sorted(gaps_count.items(), key=lambda x: sorting_key(x[0])):
+                info = gap_info.get(gap, {})
+                roi = info.get('roi', '?')
+                euros = info.get('estimado_mensual', '?')
+                summary_lines.append(f"- {gap}: {count} veces | ROI esperado: {roi}, Impacto mensual estimado: {euros}")
+            st.markdown("\n".join(summary_lines))
+
+            mejor_video = min(videos_report, key=lambda x: (len(x['Gaps'].split(',')), -x['Vistas']))
+            peor_video = max(videos_report, key=lambda x: (len(x['Gaps'].split(',')), x['Vistas']))
+            st.subheader("BENCHMARK INTERNO")
+            st.markdown(f"**Mejor optimizado (menos gaps, más views):**\n- **Título:** {mejor_video['Título']}\n- **URL:** [{mejor_video['URL']}]({mejor_video['URL']})\n- **Vistas:** {mejor_video['Vistas']:,}\n- **Gaps:** {mejor_video['Gaps']}\n")
+            st.markdown(f"**Peor optimizado (más gaps, menos views):**\n- **Título:** {peor_video['Título']}\n- **URL:** [{peor_video['URL']}]({peor_video['URL']})\n- **Vistas:** {peor_video['Vistas']:,}\n- **Gaps:** {peor_video['Gaps']}\n")
+
+            # Top 3 Mejoras con fuegos
+            gaps_prioritarios = []
+            for gap, count in gaps_count.items():
+                info = gap_info.get(gap, {})
+                eur = info.get('estimado_mensual', "€0/mes")
+                roi = info.get('roi', '?')
+                tiempo = info.get('tiempo', 'N/A')
+                accion = info.get('como', 'N/A')
+                eur_num = int(re.search(r'€(\d+)', eur).group(1)) if re.search(r'€(\d+)', eur) else 0
+                impacto = count * eur_num
+                gaps_prioritarios.append({
+                    'gap': gap, 'count': count, 'impacto': impacto, 'roi': roi, 'accion': accion, 'tiempo': tiempo, 'eur': eur
+                })
+            gaps_prioritarios.sort(key=lambda x: x['impacto'], reverse=True)
+            fires_map = {0: "🔥🔥🔥", 1: "🔥🔥", 2: "🔥"}
+            st.subheader("💡 Top 3 mejoras más impactantes")
+            for i, item in enumerate(gaps_prioritarios[:3]):
+                fires = fires_map[i]
+                st.markdown(
+                    f"{fires} **{item['gap']}**\n"
+                    f"- Afecta a: `{item['count']}/{total_videos}` videos\n"
+                    f"- ROI estimado: `{item['roi']}`\n"
+                    f"- Impacto mensual estimado: `{item['eur']}`\n"
+                    f"- Acción: {item['accion']}\n"
+                    f"- Tiempo: {item['tiempo']} por video\n"
+                    "------"
+                )
+
             total_gaps_possible = len(gap_info) * total_videos
             total_gaps_found = sum(gaps_count.values())
             score = 100 - (total_gaps_found / total_gaps_possible * 100)
             filled = int(score / 10)
             empty = 10 - filled
             bar = "█" * filled + "░" * empty
-            st.markdown(f"**📊 Canal Health Score:** {bar} {score:.0f}%")
+
+            st.subheader("📊 Canal Health Score")
+            st.markdown(f"{bar}  **{score:.0f}%**")
+            # Feedback contextual
+            if score < 50:
+                st.error("🔴 CRÍTICO - Optimización urgente necesaria\nComparado con tu competencia: Bottom 30%")
+            elif score < 70:
+                st.warning("🟡 MEDIO - Buen margen de mejora\nComparado con tu competencia: Promedio")
+            else:
+                st.success("🟢 BUENO - Canal bien optimizado\nComparado con tu competencia: Top 20%")
+
+            st.caption("ADVERTENCIA: Los datos en € son orientativos y sujetos a implementar todas las mejoras en conjunto, no por separado.")
+
